@@ -1,0 +1,50 @@
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/database');
+
+const Cart = sequelize.define('Cart', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  user_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'users',
+      key: 'id'
+    }
+  },
+  product_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'products',
+      key: 'id'
+    }
+  },
+  quantity: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 1,
+    validate: {
+      min: 1
+    }
+  },
+  added_at: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
+  }
+}, {
+  tableName: 'cart',
+  timestamps: true,
+  paranoid: true,
+  indexes: [
+    {
+      unique: true,
+      fields: ['user_id', 'product_id']
+    }
+  ]
+});
+
+module.exports = Cart;
