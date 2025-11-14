@@ -15,6 +15,7 @@ const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
 const customerRoutes = require('./routes/customer');
 const webhookRoutes = require('./routes/webhook');
+const guestRoutes = require('./routes/guest');
 const { authenticate } = require('./middleware/auth');
 
 const app = express();
@@ -298,6 +299,7 @@ app.use('/uploads', express.static('uploads'));
 
 // Routes
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1', guestRoutes); // Guest routes (public, no authentication required)
 app.use('/api/v1/admin', authenticate, adminRoutes);
 app.use('/api/v1/customer', authenticate, customerRoutes);
 app.use('/api/v1/webhook', webhookRoutes);
